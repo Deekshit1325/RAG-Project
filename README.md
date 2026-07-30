@@ -4,20 +4,19 @@ A Retrieval-Augmented Generation system that lets you upload documents (PDFs, Wo
 
 ## How It Works
 
-1. **Upload** — You upload documents through the web UI
+1. **Upload** — You upload documents through the Streamlit web UI
 2. **Parse & Chunk** — The system extracts text from each file type and splits it into smaller overlapping chunks
 3. **Embed & Store** — Each chunk gets converted into a vector embedding (using sentence-transformers) and stored in ChromaDB
 4. **Query** — When you ask a question, it gets embedded too, and we find the most similar chunks using cosine similarity
-5. **Generate** — The relevant chunks are sent to an LLM (Gemini/OpenAI/Anthropic) along with your question, and it generates an answer with citations
+5. **Generate** — The relevant chunks are sent to Groq (Llama 3.3 70B) along with your question, and it generates an answer with citations
 
 ## Tech Stack
 
-- **Backend**: Python, FastAPI
+- **Framework**: Streamlit
 - **Document Parsing**: pdfplumber, python-docx, python-pptx, openpyxl
 - **Embeddings**: sentence-transformers (all-MiniLM-L6-v2)
 - **Vector Database**: ChromaDB (local, persistent)
-- **LLM**: Supports Google Gemini, OpenAI, and Anthropic (configurable)
-- **Frontend**: Streamlit
+- **LLM**: Groq (Llama-3.3-70b-versatile)
 
 ## Setup
 
@@ -38,16 +37,9 @@ cp .env.example .env
 ```
 
 Edit `.env` and set:
-- `LLM_PROVIDER` to `gemini`, `openai`, or `anthropic`
-- The corresponding API key
+- `GROQ_API_KEY` to your Groq API key
 
-### 3. Run the backend
-
-```bash
-uvicorn backend.app:app --reload --port 8000
-```
-
-### 4. Run the frontend (in a separate terminal)
+### 3. Run the Streamlit App
 
 ```bash
 streamlit run frontend/app.py
@@ -61,7 +53,6 @@ The app should open at `http://localhost:8501`
 - Text extraction with page/slide/sheet-level metadata
 - Semantic search using cosine similarity
 - Answers grounded in your documents with source citations
-- Swappable LLM provider (change one line in `.env`)
 - Document management (view and delete indexed docs)
 - Chat history within a session
 
@@ -70,12 +61,11 @@ The app should open at `http://localhost:8501`
 ```
 rag/
 ├── backend/
-│   ├── app.py              # FastAPI endpoints
 │   ├── document_loader.py  # Text extraction per file type
 │   ├── chunker.py          # Text chunking with overlap
 │   ├── embeddings.py       # Sentence-transformer embeddings
 │   ├── vector_store.py     # ChromaDB operations
-│   ├── llm.py              # LLM API calls (multi-provider)
+│   ├── llm.py              # Groq API call
 │   └── config.py           # Settings and env vars
 ├── frontend/
 │   └── app.py              # Streamlit UI
@@ -90,9 +80,7 @@ rag/
 
 - DOCX files don't have real page numbers, so citations just say "Page 1"
 - Excel extraction is basic — complex formatting, merged cells, or formulas might not parse well
-- No authentication — anyone with access to the URL can use it
 - Chat history is session-only (lost on page refresh)
-- Chunking is character-based, not semantic — a more sophisticated chunker could improve results
 
 ## Future Improvements
 
