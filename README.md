@@ -102,4 +102,8 @@ rag/
 - [ ] Persistent chat history (save to DB)
 - [ ] Re-ranking retrieved chunks before sending to LLM
 - [ ] Support for scanned PDFs using OCR (Tesseract)
+<<<<<<< HEAD
 - [ ] Streaming LLM responses.
+=======
+- [ ] Streaming LLM responses
+>>>>>>> bdca856 (Add runtime.txt for Streamlit)
