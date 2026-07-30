@@ -2,8 +2,6 @@
 
 A Retrieval-Augmented Generation system that lets you upload documents (PDFs, Word docs, PowerPoints, Excel files, plain text) and ask questions about them. It finds the most relevant parts of your documents using semantic search and generates answers with citations showing exactly where the info came from.
 
-Built as a final year CSE project.
-
 ## How It Works
 
 1. **Upload** — You upload documents through the web UI
