@@ -14,6 +14,8 @@ try:
         os.environ["LLM_PROVIDER"] = st.secrets["LLM_PROVIDER"]
 except Exception:
     pass
+    st.write("Secret loaded:", "GROQ_API_KEY" in st.secrets)
+    st.write("Environment loaded:", bool(os.getenv("GROQ_API_KEY")))
 
 from backend.config import UPLOAD_DIR
 from backend.document_loader import load_document, SUPPORTED_EXTENSIONS
